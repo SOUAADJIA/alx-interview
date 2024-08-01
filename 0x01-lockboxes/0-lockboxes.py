@@ -1,15 +1,31 @@
 #!/usr/bin/python3
+"""Lockboxes problem."""
+
+
 def canUnlockAll(boxes):
-    visited = set()  # Set to keep track of visited boxes
-    queue = [0]      # Start with the first box
+    """Determines if all boxes can be unlocked."""
+    def collectKeys(box, available_keys):
+        """Retrieve keys from the given box."""
+        for key in box:
+            if key not in available_keys:
+                available_keys[key] = True
 
-    while queue:
-        box_index = queue.pop(0)
-        if box_index not in visited:
-            visited.add(box_index)
-            for key in boxes[box_index]:
-                if key not in visited and key < len(boxes):
-                    queue.append(key)
+    available_keys = {0: True}  # Start with the first box unlocked
+    unopened_boxes = []
 
-    # Check if all boxes have been visited
-    return len(visited) == len(boxes)
+    if len(boxes) == 0 or len(boxes) == 1:
+        return True
+
+    for i in range(len(boxes)):
+        if i in available_keys:
+            collectKeys(boxes[i], available_keys)
+        else:
+            unopened_boxes.append(i)
+
+    for i in unopened_boxes:
+        if i in available_keys:
+            collectKeys(boxes[i], available_keys)
+        else:
+            return False
+
+    return True
