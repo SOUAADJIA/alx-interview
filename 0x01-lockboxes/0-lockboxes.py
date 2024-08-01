@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 def canUnlockAll(boxes):
     visited = set()  # Set to keep track of visited boxes
     queue = [0]      # Start with the first box
